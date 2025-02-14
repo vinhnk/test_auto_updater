@@ -1,11 +1,12 @@
 const { app, BrowserWindow } = require('electron');
 const { autoUpdater } = require('electron-updater');
+const log = require('electron-log');
 const path = require('path');
 const url = require('url');
 
-// Thêm log cho auto-updater
-autoUpdater.logger = require('electron-log');
-autoUpdater.logger.transports.file.level = 'info';
+// Thêm log chi tiết
+log.transports.file.level = 'debug';
+autoUpdater.logger = log;
 
 // Cấu hình auto-updater
 autoUpdater.setFeedURL({
@@ -15,9 +16,18 @@ autoUpdater.setFeedURL({
   private: false, // true nếu là private repo
 });
 
-// Kiểm tra update
+// Log version hiện tại
+log.info('App starting... Version:', app.getVersion());
+
+// Thêm vào đầu file sau khi khởi tạo log
+console.log('Log file path:', log.transports.file.getFile().path);
+
+// Sửa hàm checkForUpdates để thêm log trực tiếp
 function checkForUpdates() {
-  autoUpdater.checkForUpdatesAndNotify();
+  log.info('Bắt đầu kiểm tra cập nhật...');
+  autoUpdater.checkForUpdatesAndNotify().catch(err => {
+    log.error('Lỗi trong quá trình kiểm tra cập nhật:', err);
+  });
 }
 
 function createWindow() {
@@ -53,9 +63,9 @@ function createWindow() {
     win.loadFile(indexPath);
   }
 
-  // Thêm headers CORS cho cả file local
+  // Sửa lại phần cấu hình CORS
   win.webContents.session.webRequest.onBeforeSendHeaders(
-    { urls: ['file://*', 'http://*', 'https://*'] },  // Thêm file:// protocol
+    { urls: ['file:///*', 'http://*/*', 'https://*/*'] },  // Sửa URL patterns
     (details, callback) => {
       callback({
         requestHeaders: {
@@ -67,7 +77,7 @@ function createWindow() {
   );
 
   win.webContents.session.webRequest.onHeadersReceived(
-    { urls: ['file://*', 'http://*', 'https://*'] },  // Thêm file:// protocol
+    { urls: ['file:///*', 'http://*/*', 'https://*/*'] },  // Sửa URL patterns
     (details, callback) => {
       callback({
         responseHeaders: {
@@ -86,35 +96,62 @@ function createWindow() {
 
 // Xử lý các sự kiện update
 autoUpdater.on('checking-for-update', () => {
-  console.log('Đang kiểm tra cập nhật...');
+  log.info('Đang kiểm tra cập nhật...');
+  log.info('Current version:', app.getVersion());
 });
 
 autoUpdater.on('update-available', (info) => {
-  console.log('Có bản cập nhật mới:', info);
+  log.info('Có bản cập nhật mới. Current version:', app.getVersion());
+  log.info('New version:', info.version);
 });
 
 autoUpdater.on('update-not-available', (info) => {
-  console.log('Không có bản cập nhật mới');
+  log.info('Không có bản cập nhật mới. Current version:', app.getVersion());
+  log.info('Latest version:', info ? info.version : 'unknown');
 });
 
 autoUpdater.on('error', (err) => {
-  console.log('Lỗi khi cập nhật:', err);
+  log.error('Lỗi khi cập nhật:', err);
+  log.error('Error details:', err.stack);
 });
 
 autoUpdater.on('download-progress', (progressObj) => {
   let log_message = `Tốc độ tải: ${progressObj.bytesPerSecond}`;
   log_message = `${log_message} - Đã tải ${progressObj.percent}%`;
   log_message = `${log_message} (${progressObj.transferred}/${progressObj.total})`;
-  console.log(log_message);
+  log.info(log_message);
 });
 
 autoUpdater.on('update-downloaded', (info) => {
-  console.log('Đã tải xong bản cập nhật');
-  // Cài đặt và khởi động lại ứng dụng
-  autoUpdater.quitAndInstall();
+  log.info('Đã tải xong bản cập nhật. Chuẩn bị cài đặt...');
+  // Thêm delay trước khi cài đặt
+  setTimeout(() => {
+    autoUpdater.quitAndInstall(false, true);
+  }, 3000);
 });
 
-app.whenReady().then(createWindow);
+// Sửa phần khởi tạo app
+app.whenReady().then(() => {
+  // Đảm bảo log được khởi tạo trước
+  log.info('=== KHỞI ĐỘNG ỨNG DỤNG ===');
+  log.info('Phiên bản hiện tại:', app.getVersion());
+  
+  createWindow();
+  
+  // Thêm try-catch để bắt lỗi
+  try {
+    log.info('Khởi tạo autoUpdater...');
+    // Kiểm tra update ngay khi khởi động
+    setTimeout(() => {
+      checkForUpdates();
+    }, 1000);
+  } catch (error) {
+    log.error('Lỗi khi khởi tạo autoUpdater:', error);
+  }
+  
+  // Kiểm tra update định kỳ (mỗi 30 phút)
+  setInterval(checkForUpdates, 30 * 60 * 1000);
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

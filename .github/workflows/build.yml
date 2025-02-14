@@ -37,4 +37,7 @@ jobs:
           prerelease: false
           files: |
             release/**/*.exe
-            release/**/*.zip 
+            release/**/*.zip
+            release/latest.yml
+            release/**/*.yml
+            release/**/*.yaml 
