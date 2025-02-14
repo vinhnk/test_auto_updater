@@ -25,6 +25,13 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
         run: npm run package
 
+      - name: List Build Directory
+        run: |
+          dir
+          dir dist
+          dir dist/xe_web_crm
+          dir dist/xe_web_crm/browser
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         env:

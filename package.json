@@ -1,6 +1,6 @@
 {
   "name": "xe-web-crm",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -69,11 +69,19 @@
       "dist/xe_web_crm/browser/**/*",
       "main.js"
     ],
+    "asar": {
+      "smartUnpack": true
+    },
+    "asarUnpack": [
+      "dist/xe_web_crm/browser/**/*"
+    ],
     "win": {
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "icon": "src/assets/icon.ico",
