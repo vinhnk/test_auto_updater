@@ -20,10 +20,10 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Build Electron app
-        env:
-          GH_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
-        run: npm run package
+      - name: Build Angular
+        run: |
+          npm run build
+          dir dist/xe_web_crm/browser  # Kiểm tra thư mục build
 
       - name: List Build Directory
         run: |
@@ -31,6 +31,11 @@ jobs:
           dir dist
           dir dist/xe_web_crm
           dir dist/xe_web_crm/browser
+
+      - name: Build Electron app
+        env:
+          GH_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+        run: npm run package
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
