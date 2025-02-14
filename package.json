@@ -1,6 +1,6 @@
 {
   "name": "xe-web-crm",
-  "version": "6.0.0",
+  "version": "2.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -9,7 +9,7 @@
     "test": "ng test",
     "electron": "electron .",
     "electron-build": "ng build --base-href ./ && electron .",
-    "package": "electron-builder build --win -p always"
+    "package": "electron-builder build --win"
   },
   "private": true,
   "dependencies": {
@@ -78,7 +78,10 @@
       ],
       "icon": "src/assets/icon.ico",
       "artifactName": "${productName}-Setup-${version}.${ext}",
-      "publisherName": "XEVN"
+      "publisherName": "XEVN",
+      "verifyUpdateCodeSignature": false,
+      "signDlls": false,
+      "signAndEditExecutable": false
     },
     "nsis": {
       "oneClick": false,

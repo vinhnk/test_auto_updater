@@ -16,15 +16,23 @@ autoUpdater.setFeedURL({
   private: false, // true nếu là private repo
 });
 
-// Thêm cấu hình cho certificate
-autoUpdater.allowUnknownCertificates = true;
-autoUpdater.disableWebInstaller = true;
+// Thêm cấu hình bỏ qua verify signature và checksum
+autoUpdater.allowDowngrade = false;
 autoUpdater.autoDownload = true;
 autoUpdater.autoInstallOnAppQuit = true;
-autoUpdater.allowDowngrade = false;
 autoUpdater.allowPrerelease = false;
 autoUpdater.forceDevUpdateConfig = true;
+autoUpdater.requireExplicitEnabled = false;
 autoUpdater.verifyUpdateCodeSignature = false;
+
+// Thêm các cấu hình mới
+autoUpdater.signature = 'skip';
+process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true';
+process.env.ELECTRON_SKIP_SIGNATURE_VERIFICATION = 'true';
+
+// Thêm cấu hình bỏ qua checksum
+autoUpdater.disableVerifyChecksum = true;
+autoUpdater.disableWebInstaller = true;
 
 // Log version hiện tại
 log.info('App starting... Version:', app.getVersion());
