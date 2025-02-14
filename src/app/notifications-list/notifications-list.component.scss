@@ -1,0 +1,62 @@
+.search-form {
+    margin-bottom: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+
+    // Điều chỉnh cho điện thoại
+    @media screen and (max-width: 576px) {
+        nz-form-item {
+            flex: 0 0 100%;
+            margin-right: 0;
+        }
+
+        input {
+            width: 100%;
+        }
+
+        button {
+            width: 100%;
+            margin: 8px 0;
+        }
+
+        .margin-left {
+            margin-left: 0;
+        }
+    }
+
+    // Điều chỉnh cho tablet
+    @media screen and (min-width: 577px) and (max-width: 768px) {
+        nz-form-item {
+            flex: 0 0 calc(50% - 16px);
+            margin-right: 0;
+        }
+    }
+
+    // Điều chỉnh cho laptop
+    @media screen and (min-width: 769px) {
+        nz-form-item {
+            margin-right: 16px;
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+}
+
+.margin-left {
+    margin-left: 8px;
+}
+
+// Điều chỉnh bảng cho responsive
+::ng-deep {
+    .ant-table-wrapper {
+        overflow-x: auto;
+    }
+    
+    @media screen and (max-width: 576px) {
+        .ant-table {
+            font-size: 12px;
+        }
+    }
+}

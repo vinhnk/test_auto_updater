@@ -1,0 +1,87 @@
+// Các breakpoints
+$mobile: 576px;
+$tablet: 768px;
+$desktop: 992px;
+$large-desktop: 1200px;
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px;
+
+  .header-title {
+    font-size: 24px;
+    margin: 0;
+
+    @media (max-width: $mobile) {
+      font-size: 20px;
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  .add-button {
+    @media (max-width: $mobile) {
+      width: 100%;
+    }
+  }
+}
+
+.mr-2 {
+  margin-right: 8px;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 -16px;
+  padding: 0 16px;
+
+  @media (max-width: $tablet) {
+    font-size: 14px;
+  }
+}
+
+:host ::ng-deep {
+  .ant-table-wrapper {
+    margin-top: 16px;
+  }
+
+  .ant-table {
+    @media (max-width: $mobile) {
+      font-size: 14px;
+    }
+  }
+
+  // Style cho modal
+  .membership-modal {
+    .ant-modal-content {
+      @media (max-width: $mobile) {
+        margin: 8px;
+      }
+    }
+
+    .ant-form-item {
+      margin-bottom: 16px;
+    }
+  }
+
+  // Style cho các nút trong bảng
+  .ant-btn {
+    @media (max-width: $mobile) {
+      padding: 4px 8px;
+      font-size: 12px;
+    }
+  }
+
+  // Điều chỉnh padding cho các ô trong bảng
+  .ant-table-cell {
+    @media (max-width: $tablet) {
+      padding: 8px 4px;
+    }
+  }
+}

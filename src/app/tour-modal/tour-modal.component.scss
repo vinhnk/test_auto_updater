@@ -1,0 +1,87 @@
+:host {
+    display: block;
+    width: 100%;
+    
+    .modal-footer {
+      margin-top: 24px;
+      text-align: right;
+      
+      button {
+        margin-left: 8px;
+      }
+    }
+    
+    // Mobile (<576px)
+    @media (max-width: 575px) {
+      nz-form-label, nz-form-control {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+      
+      .quill-editor {
+        height: 150px;
+      }
+
+      .modal-footer {
+        button {
+          margin: 4px;
+          width: calc(50% - 8px);
+        }
+      }
+    }
+
+    // Tablet (576px - 991px)
+    @media (min-width: 576px) and (max-width: 991px) {
+      .quill-editor {
+        height: 180px;
+      }
+    }
+
+    // Laptop & Desktop (>=992px)
+    @media (min-width: 992px) {
+      .quill-editor {
+        height: 200px;
+      }
+    }
+  }
+
+.upload-container {
+  display: flex;
+  gap: 8px;
+  
+  input {
+    flex: 1;
+  }
+  
+  button {
+    flex-shrink: 0;
+  }
+
+  // Mobile responsive
+  @media (max-width: 575px) {
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
+}
+
+// Style cho editor
+::ng-deep {
+  .ql-container {
+    font-size: 14px;
+  }
+  
+  .ql-editor {
+    padding: 12px 15px;
+  }
+
+  // Responsive cho toolbar
+  @media (max-width: 575px) {
+    .ql-toolbar {
+      flex-wrap: wrap;
+      padding: 4px;
+    }
+  }
+}

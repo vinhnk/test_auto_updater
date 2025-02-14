@@ -1,0 +1,323 @@
+<div class="route-management">
+  <!-- Search Section -->
+  <div class="search-section">
+    <nz-input-group [nzSuffix]="suffixTemplate">
+      <input
+        type="text"
+        nz-input
+        [(ngModel)]="searchName"
+        placeholder="Nhập tên tuyến đường"
+        (keyup.enter)="searchRoute()"
+      />
+    </nz-input-group>
+    <ng-template #suffixTemplate>
+      <button nz-button nzType="primary" (click)="searchRoute()">
+        Tìm kiếm
+      </button>
+    </ng-template>
+    <button nz-button (click)="resetSearch()">Reset</button>
+    <button nz-button nzType="primary" (click)="showModal()">Thêm mới</button>
+  </div>
+
+  <!-- Table Section -->
+  <nz-table
+    #routesTable
+    [nzData]="routes"
+    [nzLoading]="isLoading"
+    nzShowSizeChanger
+  >
+    <thead>
+      <tr>
+        <th>Chi nhánh</th>
+        <th>Chiều đi</th>
+        <th>Tên tuyến</th>
+        <th>Điểm đi</th>
+        <th>Điểm đến</th>
+        <th>Giá vé</th>
+        <th>Thời gian hoàn thành</th>
+        <th>Tổng quảng đường</th>
+        <th>Thời gian chuyến đầu</th>
+        <th>Thời gian chuyến cuối</th>
+        <th>Thời gian giữa các chuyến</th>
+        <th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let route of routesTable.data">
+        <td>{{ route.branchName }}</td>
+        <td>{{ route.routeDirection }}</td>
+        <td>{{ route.name }}</td>
+        <td>{{ route.departurePoint }}</td>
+        <td>{{ route.destinationPoint }}</td>
+        <td>{{ route.price }}</td>
+        <td>{{ route.completionTime }}</td>
+        <td>{{ route.totalDistance }}</td>
+        <td>{{ route.firstTripTime }}</td>
+        <td>{{ route.lastTripTime }}</td>
+        <td>{{ route.timeBetweenTrips }}</td>
+        <td>
+          <button nz-button nzType="primary" (click)="showModal(route)">
+            Sửa
+          </button>
+          <button nz-button nzType="link" nzDanger (click)="deleteRoute(route)">
+            Xóa
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+  <!-- Modal Form -->
+  <nz-modal
+    [(nzVisible)]="isModalVisible"
+    [nzTitle]="
+      currentRoute.id ? 'Cập nhật tuyến đường' : 'Thêm mới tuyến đường'
+    "
+    (nzOnCancel)="handleCancel()"
+    (nzOnOk)="handleOk()"
+    [nzWidth]="800"
+  >
+    <ng-container *nzModalContent>
+      <form nz-form>
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzSpan]="24">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24">Chi nhánh</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <nz-select
+                  [(ngModel)]="currentRoute.branchName"
+                  name="branchName"
+                  required
+                  nzPlaceHolder="Chọn chi nhánh"
+                  (ngModelChange)="updateRouteDirections($event)"
+                >
+                  <nz-option
+                    *ngFor="let branch of branches"
+                    [nzValue]="branch.name"
+                    [nzLabel]="branch.name || ''"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <!-- Route Information -->
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24">Tên tuyến</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <input
+                  nz-input
+                  [(ngModel)]="currentRoute.name"
+                  name="name"
+                  required
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24">Chiều đi</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <nz-select
+                  style="width: 100%"
+                  [(ngModel)]="currentRoute.routeDirection"
+                  name="routeDirection"
+                  required
+                  nzPlaceHolder="Chọn chiều đi"
+                >
+                  <nz-option
+                    *ngFor="let direction of routeDirections"
+                    [nzValue]="direction"
+                    [nzLabel]="direction"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <!-- More Route Fields -->
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24">Điểm đi</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <input
+                  nz-input
+                  [(ngModel)]="currentRoute.departurePoint"
+                  name="departurePoint"
+                  required
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24">Điểm đến</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <input
+                  nz-input
+                  [(ngModel)]="currentRoute.destinationPoint"
+                  name="destinationPoint"
+                  required
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <!-- More Route Fields -->
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24">Tổng quãng đường (km)</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <input
+                  nz-input
+                  [(ngModel)]="currentRoute.totalDistance"
+                  name="totalDistance"
+                  type="number"
+                  required
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24"
+                >Thời gian hoàn thành (phút)</nz-form-label
+              >
+              <nz-form-control [nzSpan]="24">
+                <input
+                  nz-input
+                  [(ngModel)]="currentRoute.completionTime"
+                  name="completionTime"
+                  type="number"
+                  required
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24">Giá vé (VNĐ)</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <input
+                  nz-input
+                  [(ngModel)]="currentRoute.price"
+                  name="price"
+                  type="number"
+                  required
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24"
+                >Thời gian giữa các chuyến (phút)</nz-form-label
+              >
+              <nz-form-control [nzSpan]="24">
+                <input
+                  nz-input
+                  [(ngModel)]="currentRoute.timeBetweenTrips"
+                  name="timeBetweenTrips"
+                  type="number"
+                  required
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24">Thời gian chuyến đầu</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <input
+                  nz-input
+                  [(ngModel)]="currentRoute.firstTripTime"
+                  name="firstTripTime"
+                  type="time"
+                  required
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24">Thời gian chuyến cuối</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <input
+                  nz-input
+                  [(ngModel)]="currentRoute.lastTripTime"
+                  name="lastTripTime"
+                  type="time"
+                  required
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <!-- Stops Section -->
+        <div class="stops-section">
+          <h3>
+            Điểm dừng
+            <button nz-button nzType="dashed" (click)="addStop()">
+              <i nz-icon nzType="plus"></i>Thêm điểm dừng
+            </button>
+          </h3>
+
+          <div *ngFor="let stop of stops; let i = index" class="stop-item">
+            <div nz-row [nzGutter]="16">
+              <div nz-col [nzSpan]="11">
+                <nz-form-item>
+                  <nz-form-control>
+                    <input
+                      nz-input
+                      [(ngModel)]="stop.name"
+                      [name]="'stopName' + i"
+                      placeholder="Tên điểm dừng"
+                      required
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col [nzSpan]="11">
+                <nz-form-item>
+                  <nz-form-control>
+                    <input
+                      nz-input
+                      [(ngModel)]="stop.address"
+                      [name]="'stopAddress' + i"
+                      placeholder="Địa chỉ"
+                      required
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col [nzSpan]="2">
+                <button
+                  nz-button
+                  nzType="link"
+                  nzDanger
+                  (click)="removeStop(i)"
+                  *ngIf="stops.length > 1"
+                >
+                  <i nz-icon nzType="delete"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </nz-modal>
+</div>

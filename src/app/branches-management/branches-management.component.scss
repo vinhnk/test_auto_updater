@@ -1,0 +1,91 @@
+.branches-management {
+  padding: 16px;
+  
+  // Responsive padding cho các màn hình lớn hơn
+  @media (min-width: 768px) {
+    padding: 24px;
+  }
+
+  .search-section {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    
+    // Từ tablet trở lên thì hiển thị ngang
+    @media (min-width: 768px) {
+      flex-direction: row;
+      align-items: center;
+      gap: 16px;
+    }
+
+    nz-input-group {
+      width: 100%;
+      
+      @media (min-width: 768px) {
+        width: 300px;
+      }
+    }
+
+    // Nhóm các button trên mobile
+    .button-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+  }
+
+  nz-table {
+    background: white;
+    overflow-x: auto;
+    
+    // Điều chỉnh bảng cho mobile
+    ::ng-deep {
+      .ant-table {
+        overflow-x: auto;
+      }
+      
+      // Giảm padding của cell trên mobile
+      .ant-table-thead > tr > th,
+      .ant-table-tbody > tr > td {
+        padding: 8px;
+        
+        @media (min-width: 768px) {
+          padding: 16px;
+        }
+      }
+    }
+
+    // Style cho các button trong bảng
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+
+      [nz-button] {
+        margin: 0;
+      }
+    }
+  }
+
+  [nz-button] {
+    display: inline-flex;
+    align-items: center;
+    
+    i {
+      margin-right: 4px;
+    }
+  }
+}
+
+// Style cho modal trên mobile
+::ng-deep .ant-modal {
+  @media (max-width: 767px) {
+    max-width: calc(100vw - 32px) !important;
+    margin: 16px !important;
+    
+    .ant-modal-content {
+      padding: 16px;
+    }
+  }
+}

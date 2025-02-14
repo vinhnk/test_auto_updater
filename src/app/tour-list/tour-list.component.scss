@@ -1,0 +1,138 @@
+.container {
+    padding: 24px;
+    
+    .search-form {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      
+      nz-input-group {
+        max-width: 300px;
+      }
+    }
+  
+    .tour-image {
+      width: 80px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+  
+    // Table styles
+    .ant-table-wrapper {
+      overflow-x: auto;
+      
+      // Cố định các cột quan trọng
+      .ant-table {
+        min-width: 1200px; // Chiều rộng tối thiểu để hiển thị đầy đủ nội dung
+        
+        th, td {
+          white-space: nowrap; // Ngăn text wrap
+          
+          // Cột actions luôn hiển thị
+          &:last-child {
+            position: sticky;
+            right: 0;
+            background: #fff;
+            z-index: 1;
+          }
+        }
+
+        // Khoảng cách giữa các nút
+        button {
+          margin-right: 8px;
+          
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+    }
+  
+    // Mobile (<576px)
+    @media (max-width: 575px) {
+      padding: 12px;
+      
+      .search-form {
+        gap: 8px;
+        
+        nz-input-group {
+          width: 100%;
+          max-width: none;
+        }
+        
+        button {
+          width: 100%;
+        }
+      }
+
+      .tour-image {
+        width: 60px;
+        height: 45px;
+      }
+
+      // Điều chỉnh table cho mobile
+      .ant-table-wrapper {
+        margin: 0 -12px; // Mở rộng full width
+        
+        .ant-table {
+          min-width: 800px; // Chiều rộng tối thiểu cho mobile
+        }
+      }
+    }
+  
+    // Tablet (576px - 991px) 
+    @media (min-width: 576px) and (max-width: 991px) {
+      padding: 16px;
+      
+      .search-form {
+        gap: 12px;
+        
+        nz-input-group {
+          width: 250px;
+        }
+      }
+
+      // Điều chỉnh table cho tablet
+      .ant-table-wrapper {
+        margin: 0 -16px;
+        
+        .ant-table {
+          min-width: 1000px;
+        }
+      }
+    }
+  
+    // Laptop (992px - 1199px)
+    @media (min-width: 992px) and (max-width: 1199px) {
+      .search-form {
+        nz-input-group {
+          width: 280px;
+        }
+      }
+
+      // Điều chỉnh table cho laptop
+      .ant-table-wrapper {
+        .ant-table {
+          min-width: 1100px;
+        }
+      }
+    }
+  
+    // Desktop (>=1200px)
+    @media (min-width: 1200px) {
+      .search-form {
+        nz-input-group {
+          width: 300px;
+        }
+      }
+
+      // Table hiển thị đầy đủ trên desktop
+      .ant-table-wrapper {
+        .ant-table {
+          min-width: 100%;
+        }
+      }
+    }
+}

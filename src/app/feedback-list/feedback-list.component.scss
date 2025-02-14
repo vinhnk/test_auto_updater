@@ -1,0 +1,53 @@
+.feedback-container {
+    padding: 24px;
+    
+    .search-form {
+      margin-bottom: 24px;
+      
+      .search-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: flex-end;
+        
+        nz-form-item {
+          flex: 1;
+          min-width: 200px;
+          margin-bottom: 0;
+        }
+        
+        .button-group {
+          display: flex;
+          gap: 8px;
+        }
+      }
+    }
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .feedback-container {
+      padding: 16px;
+      
+      .search-row {
+        flex-direction: column;
+        
+        nz-form-item {
+          width: 100%;
+          margin-bottom: 16px;
+        }
+        
+        .button-group {
+          width: 100%;
+          justify-content: flex-end;
+        }
+      }
+    }
+  }
+  
+  /* Table responsive */
+  ::ng-deep {
+    .ant-table-wrapper {
+      overflow-x: auto;
+    }
+  }

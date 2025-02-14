@@ -1,0 +1,102 @@
+<nz-layout class="app-layout">
+  <nz-sider
+    class="menu-sidebar"
+    nzCollapsible
+    nzWidth="256px"
+    nzBreakpoint="md"
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null"
+  >
+    <div class="sidebar-logo">
+      <a href="https://ng.ant.design/" target="_blank">
+        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" />
+        <h1>X.E Việt Nam CRM</h1>
+      </a>
+    </div>
+    <ul
+      nz-menu
+      nzTheme="dark"
+      nzMode="inline"
+      [nzInlineCollapsed]="isCollapsed"
+    >
+      <li nz-submenu nzOpen nzTitle="Quản lý bán hàng" nzIcon="shopping-cart">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/booking-list">Danh sách đặt vé</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/device-token">Danh sách khách hàng</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/transaction-callback-search">Tìm kiếm giao dịch bank</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/promotion-management">Quản lý khuyến mãi</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/membership">Quản lý hạng thành viên</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="Cấu hình" nzIcon="setting">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/route-management">Quản lý tuyến đường</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/branches-management">Quản lý chi nhánh</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="Thông báo" nzIcon="notification">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/notifications-list">Danh sách notifications</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/push-notification">Gửi thông báo</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="Quản lý Tour" nzIcon="compass">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/tour-list">Quản lý tour</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/feedback-list">Quản lý phản hồi</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/book-tours-list">Quản lý đặt tour</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="User Profile" nzIcon="user">
+        <ul>
+          <li nz-menu-item (click)="logout()">
+            <span nz-icon nzType="logout"></span>
+            <span>Logout</span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+          <span
+            class="trigger"
+            nz-icon
+            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+          ></span>
+        </span>
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

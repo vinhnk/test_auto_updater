@@ -1,0 +1,100 @@
+<div class="feedback-container">
+    <!-- Form tìm kiếm -->
+    <form class="search-form" nz-form>
+      <div class="search-row">
+        <nz-form-item>
+          <nz-form-label>Tên khách hàng</nz-form-label>
+          <nz-form-control>
+            <input nz-input [(ngModel)]="searchCriteria.customerName" name="customerName" />
+          </nz-form-control>
+        </nz-form-item>
+  
+        <nz-form-item>
+          <nz-form-label>Nội dung</nz-form-label>
+          <nz-form-control>
+            <input nz-input [(ngModel)]="searchCriteria.content" name="content" />
+          </nz-form-control>
+        </nz-form-item>
+  
+        <div class="button-group">
+          <button nz-button nzType="primary" (click)="search()">Tìm kiếm</button>
+          <button nz-button (click)="reset()">Reset</button>
+          <button nz-button nzType="primary" (click)="openModal()">Thêm mới</button>
+        </div>
+      </div>
+    </form>
+  
+    <!-- Bảng dữ liệu -->
+    <nz-table
+      #basicTable
+      [nzData]="feedbacks"
+      [nzTotal]="total"
+      [nzPageSize]="searchCriteria.size || 10"
+      [nzLoading]="loading"
+      (nzPageIndexChange)="onPageChange($event)"
+      nzShowSizeChanger
+      [nzShowTotal]="totalTemplate"
+    >
+      <ng-template #totalTemplate let-total>Tổng số {{ total }} bản ghi</ng-template>
+      <thead>
+        <tr>
+          <th>Nội dung</th>
+          <th>Đánh giá</th>
+          <th>Tên khách hàng</th>
+          <th>Ngày tạo</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td>{{ data.content }}</td>
+          <td>
+            <nz-rate [ngModel]="data.rating" [nzDisabled]="true"></nz-rate>
+          </td>
+          <td>{{ data.customerName }}</td>
+          <td>{{ data.createdAt | date }}</td>
+          <td>
+            <a (click)="openModal(data)">Sửa</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a nz-popconfirm
+               nzPopconfirmTitle="Bạn có chắc chắn muốn xóa?"
+               (nzOnConfirm)="deleteFeedback(data.id || 0)"
+            >Xóa</a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  
+    <!-- Modal thêm/sửa -->
+    <nz-modal
+      [(nzVisible)]="isModalVisible"
+      [nzTitle]="modalTitle"
+      (nzOnCancel)="isModalVisible = false"
+      (nzOnOk)="saveFeedback()"
+    >
+      <ng-container *nzModalContent>
+        <form nz-form>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="6">Tên khách hàng</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <input nz-input [(ngModel)]="currentFeedback.customerName" name="customerName" />
+            </nz-form-control>
+          </nz-form-item>
+  
+          <nz-form-item>
+            <nz-form-label [nzSpan]="6">Nội dung</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <textarea nz-input [(ngModel)]="currentFeedback.content" name="content" rows="4"></textarea>
+            </nz-form-control>
+          </nz-form-item>
+  
+          <nz-form-item>
+            <nz-form-label [nzSpan]="6">Đánh giá</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <nz-rate [(ngModel)]="currentFeedback.rating" name="rating"></nz-rate>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </ng-container>
+    </nz-modal>
+  </div>

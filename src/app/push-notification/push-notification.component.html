@@ -1,0 +1,80 @@
+<div class="push-notification-container">
+    <!-- Tiêu đề -->
+    <!-- <h2 nz-typography>Gửi thông báo</h2> -->
+  
+    <!-- Form gửi thông báo -->
+    <div nz-row [nzGutter]="16">
+      <div nz-col [nzSpan]="24">
+        <!-- Textarea nhập danh sách số điện thoại -->
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24">Danh sách số điện thoại</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <textarea 
+              nz-input 
+              [(ngModel)]="phoneList"
+              [nzAutosize]="{ minRows: 3, maxRows: 6 }"
+              placeholder="Nhập danh sách số điện thoại (mỗi số một dòng)"
+            ></textarea>
+          </nz-form-control>
+        </nz-form-item>
+  
+        <!-- Input nhập tiêu đề thông báo -->
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24">Tiêu đề thông báo</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <input 
+              nz-input 
+              [(ngModel)]="title"
+              placeholder="Nhập tiêu đề thông báo"
+            />
+          </nz-form-control>
+        </nz-form-item>
+  
+        <!-- Textarea nhập nội dung tin nhắn -->
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24">Nội dung thông báo</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <textarea 
+              nz-input 
+              [(ngModel)]="content"
+              [nzAutosize]="{ minRows: 3, maxRows: 6 }"
+              placeholder="Nhập nội dung thông báo"
+            ></textarea>
+          </nz-form-control>
+        </nz-form-item>
+  
+        <!-- Các nút thao tác -->
+        <nz-form-item>
+          <nz-form-control>
+            <div class="button-group">
+              <div nz-row [nzGutter]="[16, 16]">
+                <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="12" [nzLg]="12">
+                  <button 
+                    nz-button 
+                    nzType="primary"
+                    (click)="onSend()"
+                    [nzLoading]="isLoading"
+                    class="full-width-button"
+                  >
+                    <i nz-icon nzType="send"></i>
+                    Gửi thông báo
+                  </button>
+                </div>
+                <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="12" [nzLg]="12">
+                  <button 
+                    nz-button 
+                    (click)="onReset()"
+                    [disabled]="isLoading"
+                    class="full-width-button"
+                  >
+                    <i nz-icon nzType="clear"></i>
+                    Làm mới
+                  </button>
+                </div>
+              </div>
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </div>

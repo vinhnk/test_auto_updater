@@ -1,0 +1,81 @@
+<nz-card>
+    <!-- Form tìm kiếm -->
+    <form nz-form [nzLayout]="'inline'" class="search-form">
+      <nz-form-item>
+        <nz-form-label>Nội dung</nz-form-label>
+        <nz-form-control>
+          <input 
+            nz-input 
+            placeholder="Tìm theo nội dung" 
+            [(ngModel)]="searchContent"
+            name="content"
+          />
+        </nz-form-control>
+      </nz-form-item>
+  
+      <nz-form-item>
+        <nz-form-label>Số điện thoại</nz-form-label>
+        <nz-form-control>
+          <input 
+            nz-input 
+            placeholder="Tìm theo số điện thoại" 
+            [(ngModel)]="searchPhone"
+            name="phone"
+          />
+        </nz-form-control>
+      </nz-form-item>
+  
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button [nzType]="'primary'" (click)="search()">
+            <span nz-icon nzType="search"></span>Tìm kiếm
+          </button>
+          <button nz-button (click)="resetSearch()" class="margin-left">
+            <span nz-icon nzType="clear"></span>Xóa
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  
+    <!-- Bảng hiển thị dữ liệu -->
+    <nz-table
+      #basicTable
+      [nzData]="notifications"
+      [nzLoading]="isLoading"
+      [nzTotal]="total"
+      [nzPageSize]="pageSize"
+      [nzPageIndex]="pageIndex + 1"
+      [nzFrontPagination]="false"
+      [nzShowSizeChanger]="true"
+      [nzShowQuickJumper]="false"
+      (nzQueryParams)="onQueryParamsChange($event)"
+    >
+      <thead>
+        <tr>
+          <th nzColumnKey="id" [nzSortFn]="true">ID</th>
+          <th nzColumnKey="code">Mã</th>
+          <th nzColumnKey="content">Nội dung</th>
+          <th nzColumnKey="phone">Số điện thoại</th>
+          <th nzColumnKey="sentDate" [nzSortFn]="true">Ngày gửi</th>
+          <th nzColumnKey="createdBy">Người tạo</th>
+          <th nzColumnKey="createdDate" [nzSortFn]="true">Ngày tạo</th>
+          <th nzColumnKey="title">Tiêu đề</th>
+          <th nzColumnKey="isRead">Đã đọc</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td>{{ data.id }}</td>
+          <td>{{ data.code }}</td>
+          <td>{{ data.content }}</td>
+          <td>{{ data.phone }}</td>
+          <td>{{ data.sentDate | date:'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ data.createdBy }}</td>
+          <td>{{ data.createdDate | date:'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ data.title }}</td>
+          <td>{{ data.isRead ? 'Đã đọc' : 'Chưa đọc' }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-card>

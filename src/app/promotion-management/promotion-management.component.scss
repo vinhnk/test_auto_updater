@@ -1,0 +1,140 @@
+.promotion-management {
+    padding: 16px;
+  
+    .search-section {
+      margin-bottom: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+  
+      nz-input-group {
+        flex: 1;
+        min-width: 200px;
+        max-width: 100%;
+      }
+  
+      button {
+        white-space: nowrap;
+      }
+  
+      @media (max-width: 575px) {
+        flex-direction: column;
+        align-items: stretch;
+        
+        nz-input-group {
+          width: 100%;
+        }
+        
+        button {
+          width: 100%;
+        }
+      }
+    }
+  
+    nz-table {
+      background: white;
+      overflow-x: auto;
+      
+      ::ng-deep {
+        .ant-table {
+          overflow-x: auto;
+        }
+        
+        // Responsive table
+        @media (max-width: 991px) {
+          .ant-table-content {
+            overflow-x: auto;
+          }
+          
+          table {
+            min-width: 800px;
+          }
+        }
+      }
+  
+      .ant-btn {
+        margin-right: 8px;
+        
+        @media (max-width: 575px) {
+          margin-bottom: 8px;
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  
+    // Modal form styles
+    form {
+      nz-form-item {
+        margin-bottom: 16px;
+      }
+  
+      nz-form-label {
+        font-weight: 500;
+        
+        &::after {
+          content: ':';
+          margin-inline-start: 4px;
+          margin-inline-end: 12px;
+        }
+      }
+  
+      // Responsive form controls
+      @media (max-width: 767px) {
+        [nz-col] {
+          flex: 0 0 100%;
+          max-width: 100%;
+        }
+      }
+  
+      nz-date-picker,
+      nz-select,
+      nz-input-number {
+        width: 100%;
+      }
+    }
+  
+    // Modal responsive
+    ::ng-deep {
+      .ant-modal {
+        @media (max-width: 767px) {
+          max-width: calc(100vw - 32px) !important;
+          margin: 16px !important;
+        }
+      }
+      
+      .ant-modal-body {
+        @media (max-width: 575px) {
+          padding: 16px;
+        }
+      }
+    }
+  
+    // Required field indicator
+    nz-form-label::after {
+      content: ' *';
+      color: #ff4d4f;
+    }
+  
+    // Status colors
+    .status-badge {
+      &.draft { color: #faad14; }
+      &.active { color: #52c41a; }
+      &.inactive { color: #ff4d4f; }
+    }
+  }
+  
+  // Responsive table actions
+  ::ng-deep {
+    td .ant-btn {
+      @media (max-width: 575px) {
+        padding: 4px 8px;
+        
+        i {
+          margin-right: 0;
+        }
+      }
+    }
+  }

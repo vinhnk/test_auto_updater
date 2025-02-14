@@ -1,0 +1,72 @@
+<!-- Header với nút thêm mới -->
+<div class="header">
+    <h2 class="header-title">Quản lý hạng thành viên</h2>
+    <button nz-button nzType="primary" (click)="showCreateModal()" class="add-button">
+      Thêm mới
+    </button>
+</div>
+
+<!-- Bảng danh sách -->
+<div class="table-responsive">
+  <nz-table #basicTable [nzData]="memberships">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Cấp độ</th>
+        <th>Điểm thưởng mỗi chuyến</th>
+        <th>Số chuyến để lên hạng</th>
+        <th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td>{{ data.id }}</td>
+        <td>{{ data.level }}</td>
+        <td>{{ data.bonusPointsPerTrip }}</td>
+        <td>{{ data.numTripsToNextLevel }}</td>
+        <td>
+          <button nz-button nzType="primary" (click)="showEditModal(data)" class="mr-2">
+            Sửa
+          </button>
+          <button nz-button nzDanger (click)="deleteMembership(data.id!)">
+            Xóa
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+
+<!-- Modal thêm/sửa -->
+<nz-modal
+    [(nzVisible)]="isModalVisible"
+    [nzTitle]="isEditing ? 'Sửa hạng thành viên' : 'Thêm mới hạng thành viên'"
+    (nzOnCancel)="isModalVisible = false"
+    (nzOnOk)="handleSubmit()"
+    class="membership-modal"
+>
+    <ng-container *nzModalContent>
+      <form nz-form [formGroup]="membershipForm">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24">Cấp độ</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <nz-input-number formControlName="level" [nzMin]="1" style="width: 100%"></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+  
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24">Điểm thưởng mỗi chuyến</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <nz-input-number formControlName="bonusPointsPerTrip" [nzMin]="0" style="width: 100%"></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+  
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24">Số chuyến để lên hạng</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <nz-input-number formControlName="numTripsToNextLevel" [nzMin]="0" style="width: 100%"></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </ng-container>
+</nz-modal>

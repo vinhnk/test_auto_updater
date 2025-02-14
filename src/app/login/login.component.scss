@@ -1,0 +1,66 @@
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f2f5;
+}
+
+.login-form {
+  width: 300px;
+  padding: 24px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+  h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    color: rgba(0, 0, 0, 0.85);
+  }
+
+  nz-form-item {
+    margin-bottom: 16px;
+  }
+
+  button {
+    width: 100%;
+  }
+}
+
+// Thêm hiệu ứng hover cho input
+:host ::ng-deep {
+  .ant-input:hover {
+    border-color: #40a9ff;
+  }
+}
+
+.divider {
+  margin: 20px 0;
+  text-align: center;
+  position: relative;
+  
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 45%;
+    height: 1px;
+    background-color: #e8e8e8;
+  }
+  
+  &::before {
+    left: 0;
+  }
+  
+  &::after {
+    right: 0;
+  }
+  
+  span {
+    background-color: white;
+    padding: 0 10px;
+    color: #999;
+  }
+}

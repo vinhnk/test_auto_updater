@@ -1,0 +1,105 @@
+<div class="book-tours-container">
+    <!-- Form tìm kiếm -->
+    <div class="search-form">
+      <nz-form-item>
+        <nz-form-control>
+          <input
+            nz-input
+            placeholder="Tên khách hàng"
+            [(ngModel)]="searchValue.customerName"
+          />
+        </nz-form-control>
+      </nz-form-item>
+  
+      <nz-form-item>
+        <nz-form-control>
+          <input
+            nz-input
+            placeholder="Số điện thoại"
+            [(ngModel)]="searchValue.phone"
+          />
+        </nz-form-control>
+      </nz-form-item>
+  
+      <div class="search-buttons">
+        <button nz-button nzType="primary" (click)="loadData(true)">
+          Tìm kiếm
+        </button>
+        <button nz-button (click)="resetSearch()">Reset</button>
+      </div>
+    </div>
+  
+    <!-- Bảng danh sách -->
+    <nz-table
+      #basicTable
+      [nzData]="bookTours"
+      [nzTotal]="total"
+      [nzPageSize]="pageSize"
+      [nzPageIndex]="currentPage"
+      [nzLoading]="loading"
+      (nzPageIndexChange)="currentPage = $event; loadData()"
+      nzShowSizeChanger
+      [nzScroll]="{ x: '1200px' }"
+    >
+      <thead>
+        <tr>
+          <!-- <th>Tour</th>
+          <th>Giá</th>
+          <th>Địa điểm</th>
+          <th>Thời gian</th> -->
+          <th>Khách hàng</th>
+          <th>SĐT</th>
+          <th>Email</th>
+          <th>Người lớn</th>
+          <th>Trẻ em</th>
+          <th>Ngày đi</th>
+          <th>Yêu cầu</th>
+          <th>Ngày tạo</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <!-- <td>{{ data.tour?.title }}</td>
+          <td>{{ data.tour?.price | number }}</td>
+          <td>{{ data.tour?.location }}</td>
+          <td>{{ data.tour?.duration }} ngày</td> -->
+          <td>{{ data.customerName }}</td>
+          <td>{{ data.phone }}</td>
+          <td>{{ data.email }}</td>
+          <td>{{ data.numAdults }}</td>
+          <td>{{ data.numChildren }}</td>
+          <td>{{ data.tourDate | date }}</td>
+          <td>{{ data.customRequest }}</td>
+          <td>{{ data.createdAt | date:'short' }}</td>
+          <td>
+            <a (click)="showDetail(data.id)">Chi tiết</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a nz-popconfirm
+               nzPopconfirmTitle="Bạn có chắc chắn muốn xóa?"
+               (nzOnConfirm)="delete(data.id)"
+            >Xóa</a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  
+    <!-- Modal chi tiết -->
+    <nz-modal
+      [(nzVisible)]="isModalVisible"
+      [nzTitle]="modalTitle"
+      (nzOnCancel)="handleModalCancel()"
+      [nzFooter]="null"
+    >
+      <ng-container *nzModalContent>
+        <div *ngIf="selectedBookTour" class="detail-content">
+          <h3>Thông tin tour</h3>
+          <p><strong>Tên tour:</strong> {{ selectedBookTour.tour?.title }}</p>
+          <p><strong>Giá:</strong> {{ selectedBookTour.tour?.price | number }} VNĐ</p>
+          <p><strong>Địa điểm:</strong> {{ selectedBookTour.tour?.location }}</p>
+          <p><strong>Thời gian:</strong> {{ selectedBookTour.tour?.duration }} ngày</p>
+          
+        </div>
+      </ng-container>
+    </nz-modal>
+  </div>

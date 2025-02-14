@@ -1,0 +1,60 @@
+<!-- Container -->
+<div class="p-4">
+  <!-- Search Form -->
+  <div nz-row class="mb-4">
+    <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="8">
+      <nz-date-picker
+        [(ngModel)]="searchDate"
+        (ngModelChange)="onDateChange($event)"
+        nzFormat="yyyy-MM-dd">
+      </nz-date-picker>
+    </div>
+    <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="4">
+      <button nz-button nzType="primary" (click)="search()">Tìm kiếm</button>
+    </div>
+  </div>
+
+  <!-- Result Table -->
+  <nz-table
+    #basicTable
+    [nzScroll]="{ x: '800px' }"
+    [nzData]="transactions"
+    [nzTotal]="total"
+    [nzPageSize]="pageSize"
+    [nzPageIndex]="pageIndex"
+    [nzLoading]="loading"
+    (nzPageIndexChange)="onPageIndexChange($event)">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Transaction ID</th>
+        <th>Amount</th>
+        <th>Bank Account</th>
+        <th>Created Date</th>
+        <th>Service Code</th>
+        <!-- <th>Sub Terminal Code</th> -->
+        <th>Terminal Code</th>
+        <th>URL Link</th>
+        <th>Sign</th>
+        <th>Order ID</th>
+        <th>Content</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td>{{ data.id }}</td>
+        <td>{{ data.transactionid }}</td>
+        <td>{{ data.amount }}</td>
+        <td>{{ data.bankaccount }}</td>
+        <td>{{ data.createdDate }}</td>
+        <td>{{ data.serviceCode }}</td>
+        <!-- <td>{{ data.subTerminalCode }}</td> -->
+        <td>{{ data.terminalCode }}</td>
+        <td>{{ data.urlLink }}</td>
+        <td>{{ data.sign }}</td>
+        <td>{{ data.orderId }}</td>
+        <td>{{ data.content }}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

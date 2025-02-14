@@ -1,0 +1,155 @@
+.route-management {
+  padding: 16px;
+  
+  // Search section
+  .search-section {
+    margin-bottom: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+
+    nz-input-group {
+      flex: 1;
+      min-width: 200px;
+      max-width: 100%;
+
+      @media (min-width: 768px) {
+        max-width: 300px;
+      }
+    }
+
+    button {
+      margin: 4px;
+      
+      @media (max-width: 576px) {
+        flex: 1;
+      }
+    }
+  }
+
+  // Table section
+  nz-table {
+    background: white;
+    overflow-x: auto;
+    
+    ::ng-deep {
+      .ant-table {
+        overflow-x: auto;
+      }
+      
+      // Responsive table
+      @media (max-width: 1200px) {
+        .ant-table-content {
+          overflow-x: auto;
+        }
+        
+        table {
+          min-width: 1000px;
+        }
+      }
+
+      .ant-btn {
+        margin: 4px;
+        
+        @media (max-width: 576px) {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  // Modal form
+  ::ng-deep .ant-modal-content {
+    @media (max-width: 576px) {
+      .ant-modal-body {
+        padding: 12px;
+      }
+    }
+  }
+
+  // Stops section
+  .stops-section {
+    margin-top: 24px;
+    
+    h3 {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      gap: 12px;
+
+      @media (max-width: 576px) {
+        button {
+          width: 100%;
+        }
+      }
+    }
+
+    .stop-item {
+      margin-bottom: 16px;
+      padding: 16px;
+      background-color: #fafafa;
+      border-radius: 4px;
+
+      @media (max-width: 576px) {
+        padding: 12px;
+      }
+
+      // Responsive grid
+      ::ng-deep {
+        .ant-row {
+          margin-bottom: 8px;
+        }
+
+        .ant-col {
+          @media (max-width: 576px) {
+            flex: 0 0 100%;
+            max-width: 100%;
+          }
+        }
+
+        .ant-form-item {
+          margin-bottom: 8px;
+        }
+      }
+    }
+  }
+
+  // Form controls responsive
+  ::ng-deep {
+    .ant-form-item {
+      @media (max-width: 576px) {
+        margin-bottom: 12px;
+      }
+    }
+
+    .ant-form-item-label {
+      @media (max-width: 576px) {
+        padding-bottom: 4px;
+      }
+    }
+
+    nz-date-picker, nz-select, nz-input-number {
+      width: 100%;
+    }
+
+    .ant-input-number {
+      width: 100%;
+    }
+  }
+}
+
+// Custom breakpoints
+@media (min-width: 576px) {
+  .route-management {
+    padding: 20px;
+  }
+}
+
+@media (min-width: 992px) {
+  .route-management {
+    padding: 24px;
+  }
+}

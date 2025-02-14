@@ -1,0 +1,30 @@
+.search-container {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    
+    nz-input-group {
+      flex: 1;
+      min-width: 200px;
+      max-width: 300px;
+    }
+
+    button {
+      white-space: nowrap;
+    }
+  }
+
+  ::ng-deep {
+    .ant-table {
+      overflow-x: auto;
+      
+      @media screen and (max-width: 576px) {
+        font-size: 12px;
+        
+        th, td {
+          padding: 8px 4px !important;
+        }
+      }
+    }
+  }

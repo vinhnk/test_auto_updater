@@ -1,0 +1,48 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.p-4 {
+  padding: 0.5rem;
+  
+  @media (min-width: 768px) {
+    padding: 1rem;
+  }
+  
+  @media (min-width: 1024px) {
+    padding: 1.5rem;
+  }
+}
+
+::ng-deep .ant-table-wrapper {
+  overflow-x: auto;
+  
+  .ant-table {
+    font-size: 12px;
+    
+    @media (min-width: 768px) {
+      font-size: 14px;
+    }
+  }
+}
+
+.mb-4 {
+  [nz-col] {
+    width: 100%;
+    margin: 0.5rem 0;
+    
+    @media (min-width: 768px) {
+      width: auto;
+      margin-left: 0.5rem;
+    }
+  }
+  
+  nz-date-picker {
+    width: 100%;
+    
+    @media (min-width: 768px) {
+      width: 200px;
+    }
+  }
+}

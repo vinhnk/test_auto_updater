@@ -1,0 +1,66 @@
+.book-tours-container {
+    padding: 24px;
+  
+    // Form tìm kiếm
+    .search-form {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+  
+      nz-form-item {
+        flex: 1;
+        min-width: 200px;
+        margin-bottom: 0;
+      }
+  
+      .search-buttons {
+        display: flex;
+        gap: 8px;
+      }
+    }
+  
+    // Bảng danh sách
+    nz-table {
+      background: #fff;
+      
+      th {
+        white-space: nowrap;
+      }
+  
+      td {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  
+    // Modal chi tiết
+    .detail-content {
+      h3 {
+        margin: 16px 0 8px;
+        color: #1890ff;
+      }
+  
+      p {
+        margin: 8px 0;
+      }
+    }
+  }
+  
+  // Responsive
+  @media (max-width: 768px) {
+    .book-tours-container {
+      padding: 16px;
+  
+      .search-form {
+        flex-direction: column;
+        gap: 8px;
+  
+        nz-form-item {
+          width: 100%;
+        }
+      }
+    }
+  }

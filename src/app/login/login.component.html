@@ -1,0 +1,53 @@
+<div class="login-container">
+  <form class="login-form" (ngSubmit)="onSubmit()">
+    <h2>Đăng nhập</h2>
+    <nz-form-item>
+      <nz-form-control>
+        <input 
+          nz-input 
+          [(ngModel)]="username" 
+          name="username" 
+          placeholder="Username/Email"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    
+    <nz-form-item>
+      <nz-form-control>
+        <input 
+          nz-input 
+          type="password" 
+          [(ngModel)]="password" 
+          name="password" 
+          placeholder="Password"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    
+    <nz-form-item>
+      <nz-form-control>
+        <label nz-checkbox [(ngModel)]="keepLoggedIn" name="keepLoggedIn">
+          Duy trì đăng nhập
+        </label>
+      </nz-form-control>
+    </nz-form-item>
+    
+    <button 
+      nz-button 
+      nzType="primary" 
+      [nzLoading]="isLoading"
+    >
+      Đăng nhập
+    </button>
+
+    <div class="divider">
+      <span>Hoặc</span>
+    </div>
+
+    <asl-google-signin-button
+      type="standard"
+      size="medium"
+      [width]="250"
+    ></asl-google-signin-button>
+  </form>
+</div>

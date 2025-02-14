@@ -1,0 +1,357 @@
+<div class="promotion-management">
+  <!-- Search Section -->
+  <div class="search-section">
+    <nz-input-group [nzSuffix]="suffixTemplate">
+      <input
+        type="text"
+        nz-input
+        [(ngModel)]="searchName"
+        placeholder="Nhập tên khuyến mãi"
+        (keyup.enter)="searchPromotions()"
+      />
+    </nz-input-group>
+    <ng-template #suffixTemplate>
+      <button nz-button nzType="primary" (click)="searchPromotions()">
+        <i nz-icon nzType="search"></i>
+        Tìm kiếm
+      </button>
+    </ng-template>
+    <button nz-button (click)="resetSearch()">
+      <i nz-icon nzType="reload"></i>
+      Reset
+    </button>
+    <button nz-button nzType="primary" (click)="showModal()">
+      <i nz-icon nzType="plus"></i>
+      Thêm mới
+    </button>
+  </div>
+
+  <!-- Table Section -->
+  <nz-table
+    #promotionsTable
+    [nzData]="promotions"
+    [nzLoading]="isLoading"
+    [nzScroll]="{ x: '800px' }"
+  >
+    <thead>
+      <tr>
+        <th>Tên</th>
+        <th>Mô tả</th>
+        <th>Ngày bắt đầu</th>
+        <th>Ngày kết thúc</th>
+        <th>Trạng thái</th>
+        <th>Số lượt sử dụng</th>
+        <th>Chi nhánh</th>
+        <th>Tuyến áp dụng</th>
+        <th>Loại giảm giá</th>
+        <th>Giá trị</th>
+        <th>Ngày áp dụng</th>
+        <th>Giờ áp dụng</th>
+
+        <th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let promotion of promotionsTable.data">
+        <td>{{ promotion.name }}</td>
+        <td>{{ promotion.description }}</td>
+        <td>{{ promotion.startDate | date }}</td>
+        <td>{{ promotion.endDate | date }}</td>
+        <td>{{ promotion.status }}</td>
+        <td>{{ promotion.numUsage }}</td>
+        <td>{{ promotion.province }}</td>
+        <td>{{ promotion.route }}</td>
+        <td>{{ promotion.discountType }}</td>
+        <td>{{ promotion.discountValue }} {{ promotion.discountUnit }}</td>
+        <td>{{ promotion.applyDateDetail }}</td>
+        <td>{{ promotion.applyTimeDetail }}</td>
+        <td>
+          <button nz-button nzType="primary" (click)="showModal(promotion)">
+            <i nz-icon nzType="edit"></i>
+          </button>
+          <button
+            nz-button
+            nzDanger="true"
+            (click)="deletePromotion(promotion)"
+          >
+            <i nz-icon nzType="delete"></i>
+          </button>
+          <button
+            nz-button
+            nzType="default"
+            (click)="sendNotification(promotion)"
+            [nzLoading]="promotion.isNotifying"
+          >
+            <i nz-icon nzType="notification"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+  <!-- ... existing code ... -->
+
+  <nz-modal
+    [(nzVisible)]="isModalVisible"
+    [nzTitle]="
+      currentPromotion.id ? 'Cập nhật khuyến mãi' : 'Thêm mới khuyến mãi'
+    "
+    (nzOnCancel)="handleCancel()"
+    (nzOnOk)="handleOk()"
+    [nzWidth]="800"
+  >
+    <ng-container *nzModalContent>
+      <form nz-form>
+        <!-- Thông tin cơ bản -->
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24">Tên khuyến mãi *</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <input
+                  nz-input
+                  [(ngModel)]="currentPromotion.name"
+                  name="name"
+                  required
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24">Trạng thái</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <nz-select
+                  style="width: 100%"
+                  [(ngModel)]="currentPromotion.status"
+                  name="status"
+                >
+                  <!-- <nz-option nzValue="DRAFT" nzLabel="Nháp"></nz-option> -->
+                  <nz-option nzValue="ACTIVE" nzLabel="Hoạt động"></nz-option>
+                  <nz-option
+                    nzValue="INACTIVE"
+                    nzLabel="Không hoạt động"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24">Số lượt sử dụng</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <nz-input-number
+                  [(ngModel)]="currentPromotion.numUsage"
+                  name="numUsage"
+                  [nzMin]="0"
+                  style="width: 100%"
+                >
+                </nz-input-number>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24">Mô tả</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <textarea
+                  nz-input
+                  [(ngModel)]="currentPromotion.description"
+                  name="description"
+                  [nzAutosize]="{ minRows: 1, maxRows: 3 }"
+                >
+                </textarea>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <!-- Thời gian áp dụng -->
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24">Ngày bắt đầu *</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <nz-date-picker
+                  [(ngModel)]="currentPromotion.startDate"
+                  name="startDate"
+                  nzFormat="dd/MM/yyyy"
+                  required
+                  style="width: 100%"
+                >
+                </nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24">Ngày kết thúc *</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <nz-date-picker
+                  [(ngModel)]="currentPromotion.endDate"
+                  name="endDate"
+                  nzFormat="dd/MM/yyyy"
+                  required
+                  style="width: 100%"
+                >
+                </nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <!-- Thông tin giảm giá -->
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24">Loại giảm giá *</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <nz-select
+                  style="width: 100%"
+                  [(ngModel)]="currentPromotion.discountType"
+                  name="discountType"
+                >
+                  <nz-option
+                    nzValue="PERCENTAGE"
+                    nzLabel="Phần trăm"
+                  ></nz-option>
+                  <nz-option
+                    nzValue="DIRECT_DISCOUNT"
+                    nzLabel="Giảm trực tiếp"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24">Giá trị giảm *</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <div nz-row [nzGutter]="8">
+                  <div nz-col [nzSpan]="16">
+                    <nz-input-number
+                      [(ngModel)]="currentPromotion.discountValue"
+                      name="discountValue"
+                      [nzMin]="0"
+                      [nzMax]="
+                        currentPromotion.discountType === 'PERCENTAGE'
+                          ? 100
+                          : null
+                      "
+                      required
+                      style="width: 100%"
+                    >
+                    </nz-input-number>
+                  </div>
+                  <div nz-col [nzSpan]="8">
+                    <nz-select
+                      style="width: 100%"
+                      [(ngModel)]="currentPromotion.discountUnit"
+                      name="discountUnit"
+                    >
+                      <nz-option nzValue="%" nzLabel="%"></nz-option>
+                      <nz-option nzValue="VNĐ" nzLabel="VNĐ"></nz-option>
+                    </nz-select>
+                  </div>
+                </div>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <!-- Phạm vi áp dụng -->
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24">Chi nhánh</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <nz-select
+                  style="width: 100%"
+                  [(ngModel)]="currentPromotion.province2"
+                  name="province"
+                  nzMode="multiple"
+                  nzPlaceHolder="Chọn chi nhánh"
+                >
+                  <nz-option
+                    *ngFor="let branch of branches"
+                    [nzValue]="branch.name"
+                    [nzLabel]="branch.name || ''"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24">Tuyến đường</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <nz-select
+                  style="width: 100%"
+                  [(ngModel)]="currentPromotion.route2"
+                  name="route"
+                  nzMode="multiple"
+                  nzPlaceHolder="Chọn tuyến đường"
+                >
+                  <nz-option
+                    *ngFor="let route of routes"
+                    [nzValue]="route.name"
+                    [nzLabel]="route.name || ''"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <!-- Chi tiết thời gian áp dụng -->
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24">Chi tiết ngày áp dụng</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <nz-select
+                  style="width: 100%"
+                  [(ngModel)]="selectedDates"
+                  name="applyDateDetail"
+                  nzMode="multiple"
+                  [nzPlaceHolder]="'Chọn ngày cụ thể áp dụng'"
+                  (ngModelChange)="onDateSelectionChange($event)"
+                >
+                  <nz-option
+                    *ngFor="let date of getAvailableDates()"
+                    [nzValue]="date"
+                    [nzLabel]="formatDateForDisplay(date)"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="24">Chi tiết giờ áp dụng</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <nz-select
+                  style="width: 100%"
+                  [(ngModel)]="selectedTimes"
+                  name="applyTimeDetail"
+                  nzMode="multiple"
+                  [nzPlaceHolder]="'Chọn giờ cụ thể áp dụng'"
+                  (ngModelChange)="onTimeSelectionChange($event)"
+                >
+                  <nz-option
+                    *ngFor="let time of availableTimes"
+                    [nzValue]="time"
+                    [nzLabel]="time"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </nz-modal>
+</div>

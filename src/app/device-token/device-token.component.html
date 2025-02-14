@@ -1,0 +1,95 @@
+<div class="search-container">
+    <nz-input-group [nzSuffix]="suffixIconSearch">
+      <input type="text" nz-input placeholder="Nhập số điện thoại" [(ngModel)]="phoneNumber" />
+    </nz-input-group>
+    <ng-template #suffixIconSearch>
+      <span nz-icon nzType="search"></span>
+    </ng-template>
+    <button nz-button nzType="primary" (click)="search()" [nzLoading]="loading">
+      Tìm kiếm
+    </button>
+  </div>
+  
+  <nz-table
+    #basicTable
+    [nzData]="deviceTokens"
+    [nzLoading]="loading"
+    [nzTotal]="total"
+    [nzPageSize]="pageSize"
+    [nzPageIndex]="pageIndex"
+    [nzScroll]="{ x: '800px' }"
+    (nzPageIndexChange)="pageIndex = $event; search()"
+    (nzPageSizeChange)="pageSize = $event; search();">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Mã thiết bị</th>
+        <th>Người tạo</th>
+        <th>Ngày tạo</th>
+        <th>Người cập nhật</th>
+        <th>Ngày cập nhật</th>
+        <th>Email</th>
+        <th>Số điện thoại</th>
+        <th>Họ tên</th>
+        <th>Ngày sinh</th>
+        <th>Cấp độ thành viên</th>
+        <th>Số lần đi</th>
+        <th>Điểm thưởng</th>
+        <th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td>{{ data.id }}</td>
+        <td>{{ data.notiTokenCode }}</td>
+        <td>{{ data.createdBy }}</td>
+        <td>{{ data.createdDate | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{ data.lastModifiedBy }}</td>
+        <td>{{ data.lastModifiedDate | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{ data.email }}</td>
+        <td>{{ data.phone }}</td>
+        <td>{{ data.firstName }} {{ data.lastName }}</td>
+        <td>{{ data.birthday | date:'dd/MM/yyyy' }}</td>
+        <td>{{ data.membershipLevel }}</td>
+        <td>{{ data.numTrips }}</td>
+        <td>{{ data.awardPoints }}</td>
+        <td>
+          <button nz-button nzType="primary" (click)="showEditModal(data)">
+            <span nz-icon nzType="edit"></span>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+  <nz-modal
+    [(nzVisible)]="isModalVisible"
+    [nzTitle]="'Chỉnh sửa thông tin'"
+    (nzOnCancel)="handleCancel()"
+    (nzOnOk)="handleOk()"
+    [nzOkLoading]="isModalLoading">
+    <ng-container *nzModalContent>
+      <form nz-form>
+
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24">Cấp độ thành viên</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <nz-input-number [(ngModel)]="editingData.membershipLevel" name="membershipLevel"></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24">Số lần đi</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <nz-input-number [(ngModel)]="editingData.numTrips" name="numTrips"></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24">Điểm thưởng</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <nz-input-number [(ngModel)]="editingData.awardPoints" name="awardPoints"></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </ng-container>
+  </nz-modal>
+  

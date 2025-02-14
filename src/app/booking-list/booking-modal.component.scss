@@ -1,0 +1,28 @@
+.passengers-section {
+    h3 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+     .passenger-form {
+      background: #f8f8f8;
+      padding: 16px;
+      margin-bottom: 16px;
+      border-radius: 2px;
+       h4 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+         .remove-passenger {
+          cursor: pointer;
+          color: #ff4d4f;
+          
+          &:hover {
+            opacity: 0.8;
+          }
+        }
+    }
+  }
+}
