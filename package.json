@@ -1,6 +1,6 @@
 {
   "name": "xe-web-crm",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -9,7 +9,7 @@
     "test": "ng test",
     "electron": "electron .",
     "electron-build": "ng build --base-href ./ && electron .",
-    "package": "electron-builder build --win"
+    "package": "electron-builder build --win -p always"
   },
   "private": true,
   "dependencies": {
@@ -55,15 +55,13 @@
   "build": {
     "appId": "com.xe-web-crm.app",
     "productName": "XEWebCRM",
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "vinhnk",
-        "repo": "test_auto_updater",
-        "private": false,
-        "releaseType": "release"
-      }
-    ],
+    "publish": {
+      "provider": "github",
+      "owner": "vinhnk",
+      "repo": "test_auto_updater",
+      "private": false,
+      "releaseType": "release"
+    },
     "directories": {
       "output": "release/"
     },
