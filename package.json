@@ -1,6 +1,6 @@
 {
   "name": "xe-web-crm",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -80,7 +80,9 @@
       ],
       "icon": "src/assets/icon.ico",
       "artifactName": "${productName}-Setup-${version}.${ext}",
-      "publisherName": "XEVN"
+      "publisherName": "XEVN",
+      "signingHashAlgorithms": ["sha256"],
+      "signAndEditExecutable": true
     },
     "nsis": {
       "oneClick": false,
@@ -88,7 +90,9 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "XEWebCRM"
+      "shortcutName": "XEWebCRM",
+      "artifactName": "${productName}-Setup-${version}.${ext}",
+      "deleteAppDataOnUninstall": true
     }
   }
 }

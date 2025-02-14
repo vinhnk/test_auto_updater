@@ -16,6 +16,16 @@ autoUpdater.setFeedURL({
   private: false, // true nếu là private repo
 });
 
+// Thêm cấu hình cho certificate
+autoUpdater.allowUnknownCertificates = true;
+autoUpdater.disableWebInstaller = true;
+autoUpdater.autoDownload = true;
+autoUpdater.autoInstallOnAppQuit = true;
+autoUpdater.allowDowngrade = false;
+autoUpdater.allowPrerelease = false;
+autoUpdater.forceDevUpdateConfig = true;
+autoUpdater.verifyUpdateCodeSignature = false;
+
 // Log version hiện tại
 log.info('App starting... Version:', app.getVersion());
 
