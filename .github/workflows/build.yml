@@ -22,8 +22,8 @@ jobs:
 
       - name: Build Angular
         run: |
-          npm run build
-          dir dist/xe_web_crm/browser  # Kiểm tra thư mục build
+          npm run build --base-href="./"
+          dir dist/xe_web_crm/browser
 
       - name: List Build Directory
         run: |
