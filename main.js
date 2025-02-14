@@ -73,30 +73,31 @@ function createWindow() {
     win.loadFile(indexPath);
   }
 
-  // Sửa lại phần cấu hình CORS
+  // Cấu hình CORS mới
   win.webContents.session.webRequest.onBeforeSendHeaders(
-    { urls: ['file:///*', 'http://*/*', 'https://*/*'] },  // Sửa URL patterns
+    { urls: ['*://*/*'] },  // Sửa URL pattern để bắt tất cả các request
     (details, callback) => {
-      callback({
-        requestHeaders: {
-          ...details.requestHeaders,
-          'Origin': '*'
-        }
-      });
+      const headers = {
+        ...details.requestHeaders,
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': '*',
+        'Access-Control-Allow-Headers': '*'
+      };
+      callback({ requestHeaders: headers });
     }
   );
 
   win.webContents.session.webRequest.onHeadersReceived(
-    { urls: ['file:///*', 'http://*/*', 'https://*/*'] },  // Sửa URL patterns
+    { urls: ['*://*/*'] },  // Sửa URL pattern để bắt tất cả các request
     (details, callback) => {
-      callback({
-        responseHeaders: {
-          ...details.responseHeaders,
-          'Access-Control-Allow-Origin': ['*'],
-          'Access-Control-Allow-Methods': ['*'],
-          'Access-Control-Allow-Headers': ['*']
-        }
-      });
+      const headers = {
+        ...details.responseHeaders,
+        'Access-Control-Allow-Origin': ['*'],
+        'Access-Control-Allow-Methods': ['GET, POST, PUT, DELETE, OPTIONS'],
+        'Access-Control-Allow-Headers': ['Content-Type, Authorization, X-Requested-With'],
+        'Access-Control-Allow-Credentials': ['true']
+      };
+      callback({ responseHeaders: headers });
     }
   );
 

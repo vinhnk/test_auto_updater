@@ -1,6 +1,6 @@
 {
   "name": "xe-web-crm",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -78,9 +78,7 @@
       ],
       "icon": "src/assets/icon.ico",
       "artifactName": "${productName}-Setup-${version}.${ext}",
-      "publisherName": "XEVN",
-      "signingHashAlgorithms": ["sha256"],
-      "signAndEditExecutable": true
+      "publisherName": "XEVN"
     },
     "nsis": {
       "oneClick": false,
